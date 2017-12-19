@@ -1,0 +1,80 @@
+dnl $Id: configure.in,v 1.2 2013/01/08 21:55:29 nicolosi Exp $
+dnl
+dnl Process this file with autoconf to produce a configure script.
+dnl
+
+AC_INIT(acinclude.m4)
+AM_INIT_AUTOMAKE(libdcrypt, 0.6)
+AM_CONFIG_HEADER(config.h)
+
+AC_CANONICAL_HOST
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_CXX
+
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+dnl AC_PROG_RANLIB
+
+dnl Set up the warning flags
+SFS_WFLAGS
+
+dnl Check for libraries
+SFS_GMP
+SFS_DMALLOC
+
+dnl Checks for header files.
+AC_HEADER_STDC
+dnl AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS([errno.h stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS([sys/file.h sys/types.h sys/wait.h])
+
+dnl SFS_TIME_CHECK
+
+dnl POSIX.1b defines a struct timespec to record time information in two
+dnl fields: seconds and nanoseconds.  Some stat structures have these.
+dnl Others (including linux) do not have the sub-second information.
+dnl Check for this by looking for the st_atimespec field in struct stat.
+
+SFS_CHECK_STAT_FIELD(st_atimespec)
+SFS_CHECK_STAT_FIELD(st_mtimespec)
+SFS_CHECK_STAT_FIELD(st_mtim)
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_TYPE_OFF_T
+AC_TYPE_SIZE_T
+AC_CHECK_SIZEOF(short)
+AC_CHECK_SIZEOF(int)
+AC_CHECK_SIZEOF(long, 4)
+AC_CHECK_SIZEOF(long long, 0)
+SFS_CHECK_TYPE(u_int64_t)
+SFS_CHECK_TYPE(u_int32_t)
+SFS_CHECK_TYPE(u_int16_t)
+SFS_CHECK_TYPE(u_int8_t)
+SFS_CHECK_TYPE(u_char)
+SFS_CHECK_TYPE(u_int)
+SFS_CHECK_TYPE(u_long)
+SFS_CHECK_TYPE(mode_t)
+SFS_CHECK_TYPE(ssize_t)
+SFS_CHECK_TYPE(int32_t)
+SFS_CHECK_TYPE(int64_t)
+
+# Checks for library functions.
+AC_FUNC_MEMCMP
+AC_CHECK_FUNCS([getprogname clock_gettime isxdigit bzero memcpy strchr strrchr])
+AM_DISABLE_SHARED
+AM_PROG_LIBTOOL
+
+dnl SFS_SFS
+
+dnl Finish the setup initiated by SFS_WFLAGS
+SFS_CFLAGS
+
+ETAGS_ARGS='-C /dev/null'
+AC_SUBST(ETAGS_ARGS)
+
+AC_OUTPUT(Makefile)
