@@ -29,13 +29,20 @@ to encrypt the content of `plaintext` to a file named `ciphertext`. To decrypt, 
 $ ./ctr_decrypt keyfile ciphertext plaintext
 ```
 to decrypt the content of `ciphertext` to a file named `plaintext`. 
-Likewise use `ecb` instead of `ctr` to encrypt using the Electronic Code Book (ECB) mode of operation for the AES block cipher
-instead of the Counter (CTR) mode of operation. Note that the CTR mode is Chosen Plaintext Attack (CPA) secure while the ECB 
-mode is not. Also the CTR mode implementation includes a Cipher Block Chaining Message Authentication Code (CBC-MAC) along with
-the standard encryption to upgrade the scheme from CPA secure to Chosen Ciphertext Attack (CCA) secure making the `ctr` suite
-secure against man-in-the-middle tampering to the ciphertext. Thus the `ctr` suite is more secure and desirable than the 
-`ecb` suite.
 
-### Examples
-In the `examples` directory there are bitmap images encrypted with both `ctr` mode and `ecb` mode to show how inferior `ecb` is
-when encrypting files.
+Likewise use `ecb` instead of `ctr` to encrypt using the Electronic Code Book (ECB) mode of operation for the AES block cipher instead of the Counter (CTR) mode of operation. Note that the CTR mode is Chosen Plaintext Attack (CPA) secure while the ECB mode is not. Also the CTR mode implementation includes a Cipher Block Chaining Message Authentication Code (CBC-MAC) along with the standard encryption to upgrade the scheme from CPA secure to Chosen Ciphertext Attack (CCA) secure making the `ctr` suite secure against man-in-the-middle tampering to the ciphertext. Thus the `ctr` suite is more secure and desirable than the `ecb` suite.
+
+## Examples
+In the `examples` directory there are bitmap images encrypted with both `ctr` mode and `ecb` mode to show how inferior `ecb` is when encrypting files. Notice that the circles.bmp image is still very clear with `ecb` due to no randomization of state tracking in the mode making the encryption not CPA secure. The `ctr` mode is CPA secure and CCA secure (due to the CBC-MAC) making the bmp image encryption appear much more "random".
+
+## Authors
+* **Alex Masi**
+* **Walter Krawec**
+
+## Acknowledgments
+
+* Thank you:
+  * Professor Walter Krawec
+  * Libdcrypt
+* Originally created for an Honor's Conversion in CSE 4702: Intro to Modern Cryptography at the University of Connecticut taught by Professor Walter Krawec.
+
