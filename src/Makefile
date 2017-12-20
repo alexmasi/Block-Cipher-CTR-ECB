@@ -14,43 +14,43 @@ GMP = -lgmp
 DCRYPT = -ldcrypt
 
 # The source file(s) for each program
-all: pv_keygen pv_encrypt pv_decrypt ecb_encrypt ecb_decrypt
+all : keygen ctr_encrypt ctr_decrypt ecb_encrypt ecb_decrypt
 
-pv_misc.o : pv_misc.c pv.h
-	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c pv_misc.c
+misc.o : misc.c block.h
+	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c misc.c
 
-pv_keygen.o  : pv_keygen.c pv_misc.c pv.h
-	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c pv_keygen.c pv_misc.c
+keygen.o : keygen.c misc.c block.h
+	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c keygen.c misc.c
 
-pv_encrypt.o : pv_encrypt.c pv_misc.c pv.h
-	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c pv_encrypt.c pv_misc.c
+ctr_encrypt.o : ctr_encrypt.c misc.c block.h
+	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c ctr_encrypt.c misc.c
 
-pv_decrypt.o : pv_decrypt.c pv_misc.c pv.h
-	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c pv_decrypt.c pv_misc.c
+ctr_decrypt.o : ctr_decrypt.c misc.c block.h
+	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c ctr_decrypt.c misc.c
 
-ecb_encrypt.o : ecb_encrypt.c pv_misc.c pv.h
-	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c ecb_encrypt.c pv_misc.c
+ecb_encrypt.o : ecb_encrypt.c misc.c block.h
+	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c ecb_encrypt.c misc.c
 
-ecb_decrypt.o : ecb_decrypt.c pv_misc.c pv.h
-	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c ecb_decrypt.c pv_misc.c
+ecb_decrypt.o : ecb_decrypt.c misc.c block.h
+	$(CC) $(DEBUG) $(WFLAGS) -I. -I$(INCLUDES) -I$(DCRYPTINCLUDE) -c ecb_decrypt.c misc.c
 
-pv_keygen: pv_keygen.o pv_misc.o
-	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o pv_misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
+keygen : keygen.o misc.o
+	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
 
-pv_encrypt: pv_encrypt.o pv_misc.o
-	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o pv_misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
+ctr_encrypt : ctr_encrypt.o misc.o
+	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
 
-pv_decrypt: pv_decrypt.o pv_misc.o
-	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o pv_misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
+ctr_decrypt : ctr_decrypt.o misc.o
+	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
 
-ecb_encrypt: ecb_encrypt.o pv_misc.o
-	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o pv_misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
+ecb_encrypt : ecb_encrypt.o misc.o
+	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
 
-ecb_decrypt: ecb_decrypt.o pv_misc.o
-	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o pv_misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
+ecb_decrypt : ecb_decrypt.o misc.o
+	$(CC) $(DEBUG) $(WFLAGS) -o $@ $@.o misc.o -L. -L$(LIBS) -L$(DCRYPTLIB) $(DCRYPT) $(DMALLOC) $(GMP)
 
 
-clean:
-	-rm -f core *.core *.o *~
+clean :
+	-rm -f keygen ctr_encrypt ctr_decrypt ecb_encrypt ecb_decrypt core *.core *.o *~
 
-.PHONY: all clean
+.PHONY : all clean

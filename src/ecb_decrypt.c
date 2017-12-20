@@ -1,4 +1,4 @@
-#include "pv.h"
+#include "block.h"
 
 void
 decrypt_file (const char *ptxt_fname, void *raw_sk, size_t raw_len, int fin, int file_size)
